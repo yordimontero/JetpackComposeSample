@@ -20,16 +20,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.circleappsstudio.jetpackcomposesample.ui.theme.JetpackComposeSampleTheme
 
+private lateinit var composeView: ComposeView
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+        setContentView(R.layout.activity_main)
+
+        composeView = findViewById(R.id.composeView)
+
+        composeView.setContent {
             JetpackComposeSampleTheme {
                 SampleColumnList(sampleList = sampleList)
             }

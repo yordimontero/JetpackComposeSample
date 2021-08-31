@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/monte/AndroidStudioProjects/JetpackComposeSample/app/src/main/res/drawable/android_jetpack_background.xml" value="0.12222222222222222" />
+        <entry key="..\:/Users/monte/AndroidStudioProjects/JetpackComposeSample/app/src/main/res/layout/activity_main.xml" value="0.19948717948717948" />
+        <entry key="..\:/Users/monte/AndroidStudioProjects/JetpackComposeSample/app/src/main/res/mipmap-anydpi-v26/android_jetpack.xml" value="0.12222222222222222" />
         <entry key="..\:/Users/monte/AndroidStudioProjects/JetpackComposeSample/app/src/main/res/mipmap-anydpi-v26/header.xml" value="0.21875" />
         <entry key="..\:/Users/monte/AndroidStudioProjects/JetpackComposeSample/app/src/main/res/mipmap-anydpi-v26/header_round.xml" value="0.19074074074074074" />
         <entry key="..\:/Users/monte/AndroidStudioProjects/JetpackComposeSample/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19074074074074074" />

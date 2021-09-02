@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val painter = painterResource(id = R.mipmap.header)
+            val painter = painterResource(id = R.drawable.android_jetpack)
             val description = "This is Jetpack Compose!"
             val title = "Designing CardView in Jetpack Compose"
             ImageCard(
@@ -59,7 +59,8 @@ private fun ImageCard(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth(0.5f)
+            //.fillMaxWidth(0.5f)
+            .fillMaxWidth()
             .padding(16.dp)
     ) {
 
@@ -116,7 +117,7 @@ private fun ImageCard(
 @Composable
 private fun TestingPreview() {
     ImageCard(
-        painter = painterResource(id = R.mipmap.header),
+        painter = painterResource(id = R.drawable.android_jetpack),
         contentDescription = "This is a description",
         title = "This is a title"
     )

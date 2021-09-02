@@ -27,8 +27,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,76 +46,73 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val painter = painterResource(id = R.drawable.android_jetpack)
-            val description = "This is Jetpack Compose!"
-            val title = "Designing CardView in Jetpack Compose"
-            ImageCard(
-                painter = painter,
-                contentDescription = description,
-                title = title
-            )
+            Test()
         }
     }
 }
 
 @Composable
-private fun ImageCard(
-    painter: Painter,
-    contentDescription: String,
-    title: String,
-    modifier: Modifier = Modifier
-) {
+private fun Test() {
+
+    val fontFamily = FontFamily(
+        Font(R.font.opensans_light, FontWeight.Light),
+        Font(R.font.opensans_regular, FontWeight.Normal),
+        Font(R.font.opensans_semibold, FontWeight.Medium),
+        Font(R.font.opensans_bold, FontWeight.Bold),
+        Font(R.font.opensans_extrabold, FontWeight.ExtraBold)
+    )
+
     Box(
         modifier = Modifier
-            //.fillMaxWidth(0.5f)
-            .fillMaxWidth()
-            .padding(16.dp)
+            .fillMaxSize()
+            .background(
+                Color(0xFF3F51B5)
+            ),
+        contentAlignment = Alignment.Center
     ) {
 
-        Card(
-            modifier = modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(15.dp),
-            elevation = 5.dp
-        ) {
+        Text(
+            text = buildAnnotatedString {
 
-            Box(
-                modifier = Modifier.height(200.dp)
-            ) {
-                Image(
-                    painter = painter,
-                    contentDescription = contentDescription,
-                    contentScale = ContentScale.Crop
-                )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    Color.Black
-                                ),
-                                startY = 300f
-                            )
-                        )
-                )
-
-                Text(
-                    text = title,
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(16.dp),
-                    style = TextStyle(
+                withStyle(
+                    style = SpanStyle(
                         color = Color.White,
-                        fontSize = 16.sp
+                        fontSize = 30.sp
                     )
-                )
-            }
+                ) {
+                    append("Time")
+                }
 
-        }
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.DarkGray,
+                        fontSize = 40.sp
+                    )
+                ) {
+                    append("4")
+                }
+
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.White,
+                        fontSize = 30.sp
+                    )
+                ) {
+                    append("Sleep!")
+                }
+
+            },
+            color = Color.White,
+            fontSize = 20.sp,
+            fontFamily = fontFamily,
+            fontWeight = FontWeight.ExtraBold,
+            fontStyle = FontStyle.Italic,
+            textAlign = TextAlign.Center,
+            textDecoration = TextDecoration.LineThrough
+        )
 
     }
+
 }
 
 @Preview(
@@ -116,9 +121,5 @@ private fun ImageCard(
 )
 @Composable
 private fun TestingPreview() {
-    ImageCard(
-        painter = painterResource(id = R.drawable.android_jetpack),
-        contentDescription = "This is a description",
-        title = "This is a title"
-    )
+
 }

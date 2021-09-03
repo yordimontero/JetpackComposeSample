@@ -36,15 +36,37 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+data class User(
+    val name: String = "",
+    val age: Int = 0
+)
+
+val userList = listOf(
+    User(
+        "Juan",
+        25
+    ),
+    User(
+        "Luis",
+        19
+    ),
+    User(
+        "María",
+        32
+    )
+)
+
 @Composable
 private fun Test() {
 
     LazyColumn {
 
-        items(5000) {
+        itemsIndexed(
+            userList
+        ) { index, item ->
 
             Text(
-                text = "Item: $it",
+                text = "#$index: ${item.name}, ${item.age}",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -57,14 +79,10 @@ private fun Test() {
 
         }
 
-        /*itemsIndexed(
-            listOf(
-                "This", "is", "Jetpack", "Compose!"
-            )
-        ) { index, item ->
+        /*items(5000) {
 
             Text(
-                text = item,
+                text = "Item: $it",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -72,7 +90,6 @@ private fun Test() {
                     .fillMaxWidth()
                     .padding(vertical = 24.dp)
                     .background(Color.DarkGray),
-                fontFamily = fontFamily,
                 color = Color.White
             )
 

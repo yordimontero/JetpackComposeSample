@@ -6,6 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -13,8 +17,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -30,55 +39,44 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun Test() {
 
-    val scaffoldState = rememberScaffoldState()
+    LazyColumn {
 
-    var textFieldState by remember {
-        mutableStateOf("")
-    }
+        items(5000) {
 
-    val scope = rememberCoroutineScope()
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        scaffoldState = scaffoldState
-    ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = textFieldState,
-                onValueChange = {
-                    textFieldState = it
-                },
-                label = {
-                    Text(text = "Name")
-                },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+            Text(
+                text = "Item: $it",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp)
+                    .background(Color.DarkGray),
+                color = Color.White
             )
-
-            Spacer(
-                modifier = Modifier.height(16.dp)
-            )
-
-            Button(onClick = {
-
-                scope.launch {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        "Hi $textFieldState"
-                    )
-                }
-
-            }) {
-                Text(text = "Click me!")
-            }
 
         }
+
+        /*itemsIndexed(
+            listOf(
+                "This", "is", "Jetpack", "Compose!"
+            )
+        ) { index, item ->
+
+            Text(
+                text = item,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp)
+                    .background(Color.DarkGray),
+                fontFamily = fontFamily,
+                color = Color.White
+            )
+
+        }*/
 
     }
 

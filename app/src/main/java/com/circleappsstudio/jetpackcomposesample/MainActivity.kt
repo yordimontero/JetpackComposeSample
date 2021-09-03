@@ -2,6 +2,8 @@ package com.circleappsstudio.jetpackcomposesample
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,53 +43,86 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/*var i = 0
+
+@Composable
+private fun Test(
+    backPressedDispatcher: OnBackPressedDispatcher
+) {
+
+    val callback = remember {
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Do something...
+            }
+        }
+    }
+
+    DisposableEffect(key1 = backPressedDispatcher) {
+        backPressedDispatcher.addCallback(callback)
+        onDispose {
+            callback.remove()
+        }
+    }
+
+    Button(onClick = { /*TODO*/ }) {
+        Text(text = "Click me!")
+    }
+    
+}*/
+
 @Composable
 private fun Test() {
 
-    val constraints = ConstraintSet {
+    val scaffoldState = rememberScaffoldState()
 
-        val greenBox = createRefFor("greenbox")
-        val redBox = createRefFor("redbox")
+    // Create coroutine scope to using suspend functions in Composable
+    // PD: Should only launch coroutines in callbacks like OnClick {...}
+    val scope = rememberCoroutineScope()
 
-        val guideline = createGuidelineFromTop(0.5f)
-
-        constrain(greenBox) {
-            //top.linkTo(parent.top)
-            top.linkTo(guideline)
-            start.linkTo(parent.start)
-            width = Dimension.value(100.dp)
-            height = Dimension.value(100.dp)
-        }
-
-        constrain(redBox) {
-            top.linkTo(parent.top)
-            start.linkTo(greenBox.end)
-            end.linkTo(parent.end)
-            //width = Dimension.fillToConstraints
-            width = Dimension.value(100.dp)
-            height = Dimension.value(100.dp)
-        }
-
-        createHorizontalChain(greenBox, redBox, chainStyle = ChainStyle.Packed)
-
-    }
-
-    ConstraintLayout(
-        constraintSet = constraints,
-        modifier = Modifier.fillMaxSize()
+    Scaffold(
+        scaffoldState = scaffoldState
     ) {
 
-        Box(
-            modifier = Modifier
-                .background(Color.Green)
-                .layoutId("greenbox")
-        )
+        val counter = produceState(initialValue = 0) {
+            kotlinx.coroutines.delay(3000L)
+            value = 4
+        }
 
-        Box(
-            modifier = Modifier
-                .background(Color.Red)
-                .layoutId("redbox")
-        )
+        /*var counter by remember {
+            mutableStateOf(0)
+        }*/
+
+        if (counter.value % 5 == 0 && counter.value > 0) {
+
+            LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
+                scaffoldState.snackbarHostState.showSnackbar("Counter is divisible in 5")
+            }
+
+        }
+
+        /*if (counter % 5 == 0 && counter > 0) {
+            // Execute suspend functions in Composable using scope.launch {...}
+
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar("Counter is divisible in 5")
+            }
+
+        }*/
+
+        Button(
+            onClick = {}
+        ) {
+            Text(text = "Counter: ${counter.value}")
+        }
+
+        /*Button(
+            onClick = {
+                counter++
+            }
+        ) {
+            Text(text = "Counter: $counter")
+        }*/
 
     }
 

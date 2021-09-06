@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -43,87 +45,68 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/*var i = 0
-
-@Composable
-private fun Test(
-    backPressedDispatcher: OnBackPressedDispatcher
-) {
-
-    val callback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // Do something...
-            }
-        }
-    }
-
-    DisposableEffect(key1 = backPressedDispatcher) {
-        backPressedDispatcher.addCallback(callback)
-        onDispose {
-            callback.remove()
-        }
-    }
-
-    Button(onClick = { /*TODO*/ }) {
-        Text(text = "Click me!")
-    }
-    
-}*/
-
 @Composable
 private fun Test() {
 
-    val scaffoldState = rememberScaffoldState()
+    var sizeState by remember {
+        mutableStateOf(200.dp)
+    }
 
-    // Create coroutine scope to using suspend functions in Composable
-    // PD: Should only launch coroutines in callbacks like OnClick {...}
-    val scope = rememberCoroutineScope()
+    val size by animateDpAsState(
+        targetValue = sizeState,
 
-    Scaffold(
-        scaffoldState = scaffoldState
+        // Slowly animation:
+        /*animationSpec = tween(
+            durationMillis = 3000,
+            delayMillis = 300,
+            easing = FastOutLinearInEasing
+        )*/
+
+        // Bouncy animation:
+        /*spring(
+            Spring.DampingRatioHighBouncy
+        )*/
+
+        // Custom animation:
+        /*keyframes {
+            durationMillis = 5000
+            sizeState at 0 with LinearEasing
+            sizeState * 1.5f at 1000 with FastOutLinearInEasing
+            sizeState * 2f at 5000
+        }*/
+
+    )
+
+    // Animation color:
+    val infiniteTransition = rememberInfiniteTransition()
+
+    val color = infiniteTransition.animateColor(
+        initialValue = Color.Red,
+        targetValue = Color.Green,
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = 2000
+            ),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    Box(
+        modifier = Modifier
+            .size(size)
+            .background(color.value),
+        contentAlignment = Alignment.Center
     ) {
-
-        val counter = produceState(initialValue = 0) {
-            kotlinx.coroutines.delay(3000L)
-            value = 4
-        }
-
-        /*var counter by remember {
-            mutableStateOf(0)
-        }*/
-
-        if (counter.value % 5 == 0 && counter.value > 0) {
-
-            LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
-                scaffoldState.snackbarHostState.showSnackbar("Counter is divisible in 5")
-            }
-
-        }
-
-        /*if (counter % 5 == 0 && counter > 0) {
-            // Execute suspend functions in Composable using scope.launch {...}
-
-            scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar("Counter is divisible in 5")
-            }
-
-        }*/
-
         Button(
-            onClick = {}
-        ) {
-            Text(text = "Counter: ${counter.value}")
-        }
-
-        /*Button(
             onClick = {
-                counter++
+                sizeState += 50.dp
             }
         ) {
-            Text(text = "Counter: $counter")
-        }*/
-
+            Text(
+                text = "Increase Size",
+                color = color.value
+            )
+        }
     }
 
 }
